@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
 
 const ANTHROPIC_MODEL = "claude-sonnet-4-20250514";
-const API_KEY = import.meta.env.VITE_ANTHROPIC_KEY;
 
 // ── Rothko / Albers Design System ────────────────────────────────────────────
 const css = `
@@ -1141,8 +1140,7 @@ function WeatherTab() {
 }
 
 // ── CALENDAR TAB ──────────────────────────────────────────────────────────────
-function CalendarTab() {
-  const [events, setEvents] = useState(INIT_EVENTS);
+function CalendarTab({ events, setEvents }) {
   const [yr, setYr] = useState(TODAY.getFullYear());
   const [mo, setMo] = useState(TODAY.getMonth());
   const [sel, setSel] = useState(todayStr);
@@ -1797,7 +1795,7 @@ function MemoryTab({ memories, setMemories }) {
 export default function App() {
   const [tabIdx, setTabIdx] = useState(0);
   const [shopping, setShopping] = useState(INIT_SHOPPING);
-  const [events]   = useState(INIT_EVENTS);
+  const [events, setEvents] = useState(INIT_EVENTS);
   const [sources, setSources] = useState(DEFAULT_SOURCES);
   const [holidays, setHolidays] = useState(INIT_HOLIDAYS);
   const [tasks, setTasks]       = useState(INIT_TASKS);
@@ -1902,7 +1900,7 @@ export default function App() {
               <div key={t.key} className={`page ${t.zone}`}>
                 {visited.has(i) && i===0 && <BriefTab events={events} shopping={shopping} holidays={holidays} memories={memories} goTo={goTo}/>}
                 {visited.has(i) && i===1 && <WeatherTab/>}
-                {visited.has(i) && i===2 && <CalendarTab/>}
+                {visited.has(i) && i===2 && <CalendarTab events={events} setEvents={setEvents}/>}
                 {visited.has(i) && i===3 && <ShoppingTab items={shopping} setItems={setShopping}/>}
                 {visited.has(i) && i===4 && <MealsTab shopping={shopping} sources={sources} setSources={setSources}/>}
                 {visited.has(i) && i===5 && <HolidaysTab holidays={holidays} setHolidays={setHolidays}/>}
