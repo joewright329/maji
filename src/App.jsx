@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
 
 const ANTHROPIC_MODEL = "claude-sonnet-4-20250514";
+const API_KEY = import.meta.env.VITE_ANTHROPIC_KEY;
 
 // ── Rothko / Albers Design System ────────────────────────────────────────────
 const css = `
