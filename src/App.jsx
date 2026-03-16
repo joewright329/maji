@@ -1358,7 +1358,7 @@ function MealsTab({ shopping, sources, setSources }) {
       const siteList=enabled.map(s=>s.site).join(", ");
       const nameList=enabled.map(s=>s.name).join(", ");
       const prompt=`Find 3 real recipes from: ${nameList} (sites: ${siteList}). Ingredients: ${ings||"pantry staples"}. Preferences: ${prefs}. Family: Joe, Alice, Matilda (18mo) Paddington Sydney. Return ONLY valid JSON array of 3 objects: title, source, sourceEmoji, url (real specific URL), description (2 sentences), keyIngredients (comma string), tag ("Quick"|"Family"|"Light"), whyMatch (1 sentence).`;
-      const r=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json","x-api-key":API_KEY,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},body:JSON.stringify({model:ANTHROPIC_MODEL,max_tokens:1500,tools:[{type:"web_search_20250305",name:"web_search"}],messages:[{role:"user",content:prompt}]})});
+      const r=await fetch("/api/search-recipes",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:ANTHROPIC_MODEL,max_tokens:1500,tools:[{type:"web_search_20250305",name:"web_search"}],messages:[{role:"user",content:prompt}]})});
       const d=await r.json();
       const txt=d.content?.find(b=>b.type==="text")?.text||"";
       const m=txt.replace(/```json|```/g,"").trim().match(/\[[\s\S]*\]/);
